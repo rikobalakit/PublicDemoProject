@@ -9,6 +9,7 @@ namespace PearlGreySoftware
 
         #region Private Constants
 
+        // TODO-RPB: Abstract this in InputManager.
         private object INPUT_IDENTIFIER_LEFT_GRIP = OVRInput.Axis1D.PrimaryHandTrigger;
         private object INPUT_IDENTIFIER_RIGHT_GRIP = OVRInput.Axis1D.SecondaryHandTrigger;
 

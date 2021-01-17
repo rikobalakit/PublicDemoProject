@@ -8,6 +8,9 @@ namespace PearlGreySoftware
     public class InputManager : PearlBehaviour
     {
 
+        // TODO-RPB: Create an interface or abstract class so we can have different InputManagers for different systems.
+        // RPB: Unfortunately, only Oculus systems are available in the studio at the moment...
+
         #region Private Constants
 
         private const float THRESHOLD_BUTTON_DOWN = 0.75f;
