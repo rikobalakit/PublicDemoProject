@@ -78,7 +78,7 @@ namespace PearlGreySoftware
         protected void SetStatus(string statusText, LogType logType)
         {
             m_status = statusText;
-            var logText = $"{gameObject.name}.{this.GetType().Name}: {statusText}";
+            var logText = $"[{gameObject.name}.{this.GetType().Name}] {statusText}";
 
             if (logType == LogType.Error && (CurrentLogLevel == LogLevel.All || CurrentLogLevel == LogLevel.Warning || CurrentLogLevel == LogLevel.Error))
             {

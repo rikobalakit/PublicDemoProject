@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/ThirdParty/Unity/Scenes/SampleScene.unity
     guid: d1c3109bdb54ad54c8a2b2838528e640
   - enabled: 1
-    path: Assets/PearlGrey/HelloWorldScene.unity
+    path: Assets/PearlGrey/Scenes/HelloWorldScene.unity
     guid: cf229a6da96d585439f9a73bc7baa50d
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 3b63a5b59d0aace48a9bfa515a466e43,

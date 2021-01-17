@@ -63,8 +63,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b510d9dbdcff0b4e9854b6c47b2830e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusText: Uninitialized
+  CurrentLogLevel: 3
+  m_status: Uninitialized
   m_trackedPoseDriver: {fileID: 9010516784938079998}
+  m_chirality: 0
 --- !u!1 &9010516784969075862
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,7 +214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd94e43b58d865b43beb5fca1e6d02bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusText: Uninitialized
+  CurrentLogLevel: 3
+  m_status: Uninitialized
   m_trackedPoseDriver: {fileID: 9010516784969075860}
 --- !u!1 &9010516785669083309
 GameObject:
@@ -260,7 +263,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a0a6744fabc756478714f2fb6ec4195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusText: Uninitialized
+  CurrentLogLevel: 3
+  m_status: Uninitialized
+  m_playerHead: {fileID: 9010516784969075856}
+  m_playerHandLeft: {fileID: 9010516784938079997}
+  m_playerHandRight: {fileID: 9010516785883779091}
 --- !u!1 &9010516785676255853
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,5 +517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b510d9dbdcff0b4e9854b6c47b2830e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusText: Uninitialized
+  CurrentLogLevel: 3
+  m_status: Uninitialized
   m_trackedPoseDriver: {fileID: 9010516785883779092}
+  m_chirality: 0
