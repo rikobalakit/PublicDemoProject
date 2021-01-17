@@ -3,15 +3,11 @@ using UnityEngine.Events;
 
 namespace PearlGreySoftware
 {
-    [SerializeField]
-    public class FloatEvent: UnityEvent<float>
-    {
+    #region Public Classes
 
-    }
+    public class FloatEvent: UnityEvent<float> { }
 
-    [SerializeField]
-    public class VoidEvent : UnityEvent
-    {
+    public class VoidEvent : UnityEvent { }
 
-    }
+    #endregion
 }
