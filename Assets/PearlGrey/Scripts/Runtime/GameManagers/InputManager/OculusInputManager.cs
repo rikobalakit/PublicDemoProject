@@ -5,11 +5,8 @@ using UnityEngine.XR;
 namespace PearlGreySoftware
 {
 
-    public class InputManager : PearlBehaviour
+    public class OculusInputManager : PearlBehaviour, IInputManager
     {
-
-        // TODO-RPB: Create an interface or abstract class so we can have different InputManagers for different systems.
-        // RPB: Unfortunately, only Oculus systems are available in the studio at the moment...
 
         #region Private Constants
 
@@ -18,53 +15,33 @@ namespace PearlGreySoftware
 
         #endregion
 
-        #region Private Classes
-
-        public class TrackedInputs
-        {
-            public float Value;
-            public FloatEvent OnValueChanged = new FloatEvent();
-            public VoidEvent OnInputDown = new VoidEvent();
-            public VoidEvent OnInputUp = new VoidEvent();
-            public bool IsDown = false;
-        }
-
-        #endregion
-
         #region Private Fields
 
-        private OVRInput.Button[] m_trackedButtons = new OVRInput.Button[]
-        {
-            OVRInput.Button.One,
-            OVRInput.Button.Two,
-            OVRInput.Button.Three,
-            OVRInput.Button.Four
+        private Dictionary<InputName, object> m_inputToOVRInputMapping = new Dictionary<InputName, object>(){
+            {InputName.ThumbXYLeftButton, OVRInput.Button.PrimaryThumbstick},
+            {InputName.ThumbXYRightButton, OVRInput.Button.SecondaryThumbstick},
+            {InputName.GripLeftAxis, OVRInput.Axis1D.PrimaryHandTrigger},
+            {InputName.GripRightAxis, OVRInput.Axis1D.SecondaryHandTrigger},
+            {InputName.IndexLeftAxis, OVRInput.Axis1D.PrimaryIndexTrigger},
+            {InputName.IndexRightAxis, OVRInput.Axis1D.SecondaryIndexTrigger},
         };
-
-        private OVRInput.Axis1D[] m_trackedTriggers = new OVRInput.Axis1D[]
-        {
-            OVRInput.Axis1D.PrimaryHandTrigger,
-            OVRInput.Axis1D.SecondaryHandTrigger,
-            OVRInput.Axis1D.PrimaryIndexTrigger,
-            OVRInput.Axis1D.SecondaryIndexTrigger
-        };
-
 
         private GameManager m_gameManager = null;
-        private Dictionary<object, TrackedInputs> m_inputStates = new Dictionary<object, TrackedInputs>();
+        private Dictionary<InputName, TrackedInput> m_inputStates = new Dictionary<InputName, TrackedInput>();
+        private OVRManager m_ovrManager = null;
 
         #endregion
 
-        #region Public Properties
+        #region Interface Properties
 
-        public IReadOnlyDictionary<object, TrackedInputs> InputStates
+        public IReadOnlyDictionary<InputName, TrackedInput> InputStates
         {
             get { return m_inputStates; }
         }
 
         #endregion
 
-        #region Public Methods
+        #region Interface Methods
 
         public void InitializeFromGameManager(GameManager gameManager)
         {
@@ -78,15 +55,11 @@ namespace PearlGreySoftware
         private void InitializeFromGameManagerInternal(GameManager gameManager)
         {
             m_gameManager = gameManager;
+            m_ovrManager = gameObject.AddComponent<OVRManager>();
 
-            for (int i = 0; i < m_trackedButtons.Length; i++)
+            foreach (var inputMapping in m_inputToOVRInputMapping)
             {
-                m_inputStates.Add(m_trackedButtons[i], new TrackedInputs());
-            }
-
-            for (int i = 0; i < m_trackedTriggers.Length; i++)
-            {
-                m_inputStates.Add(m_trackedTriggers[i], new TrackedInputs());
+                m_inputStates.Add(inputMapping.Key, new TrackedInput(inputMapping.Value));
             }
 
             SetInitialized();
@@ -104,7 +77,7 @@ namespace PearlGreySoftware
 
         private void UpdateInputStates()
         {
-            if(m_gameManager.OVRManager == null)
+            if(m_ovrManager == null)
             {
                 SetStatus("Cannot update input states because OVRManager is not available!");
                 return;
@@ -114,9 +87,9 @@ namespace PearlGreySoftware
             {
                 float previousValue = inputState.Value.Value;
 
-                if (inputState.Key.GetType() == typeof(OVRInput.Button))
+                if (inputState.Value.OVRInputMapping.GetType() == typeof(OVRInput.Button))
                 {
-                    bool currentValueBool = OVRInput.Get((OVRInput.Button)inputState.Key, OVRInput.Controller.All);
+                    bool currentValueBool = OVRInput.Get((OVRInput.Button)inputState.Value.OVRInputMapping, OVRInput.Controller.All);
 
                     if (currentValueBool == true)
                     {
@@ -127,13 +100,13 @@ namespace PearlGreySoftware
                         inputState.Value.Value = 0f;
                     }
                 }
-                else if (inputState.Key.GetType() == typeof(OVRInput.Axis1D))
+                else if (inputState.Value.OVRInputMapping.GetType() == typeof(OVRInput.Axis1D))
                 {
-                    inputState.Value.Value = OVRInput.Get((OVRInput.Axis1D)inputState.Key, OVRInput.Controller.All);
+                    inputState.Value.Value = OVRInput.Get((OVRInput.Axis1D)inputState.Value.OVRInputMapping, OVRInput.Controller.All);
                 }
                 else
                 {
-                    SetStatus($"Unsupported input type {inputState.Key.GetType()}", LogType.Error);
+                    SetStatus($"Unsupported input type {inputState.Value.OVRInputMapping.GetType()}", LogType.Error);
                     continue;
                 }
 

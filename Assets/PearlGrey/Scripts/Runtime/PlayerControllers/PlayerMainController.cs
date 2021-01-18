@@ -7,16 +7,17 @@ namespace PearlGreySoftware
     public class PlayerMainController : PearlBehaviour
     {
 
-        #region Public Methods
+        #region Private Constants
 
-        public void ResetPlayerPosition()
-        {
-            ResetPlayerPositionInternal();
-        }
+        private object INPUT_IDENTIFIER_LEFT_THUMBSTICK_BUTTON = OVRInput.Button.PrimaryThumbstick;
+        private object INPUT_IDENTIFIER_RIGHT_THUMBSTICK_BUTTON = OVRInput.Button.SecondaryThumbstick;
 
         #endregion
 
         #region Private Fields
+
+        [SerializeField]
+        private Transform m_playerRootTransform = null;
 
         [SerializeField]
         private PlayerHeadController m_playerHead = null;
@@ -27,12 +28,23 @@ namespace PearlGreySoftware
         [SerializeField]
         private PlayerHandController m_playerHandRight = null;
 
+        // TODO-RPB: Allow this to be automatically found in the scene upon level load
+        [SerializeField]
+        private HeadCalibrationPoint m_headCalibrationPoint = null;
+
+        private InputName m_thumbXYButtonLeftInputName = InputName.ThumbXYLeftButton;
+        private InputName m_thumbXYButtonRightInputName = InputName.ThumbXYRightButton;
+
         #endregion
 
         #region Private Methods
 
         private IEnumerator Start()
         {
+            yield return new WaitWhile(() => GameManager.Instance == null);
+            yield return new WaitWhile(() => GameManager.Instance.InputManager == null);
+            yield return new WaitWhile(() => !GameManager.Instance.InputManager.IsInitialized);
+
             if (m_playerHead == null)
             {
                 SetStatus($"{nameof(m_playerHead)} not assigned. Looking for one now...", LogType.Warning);
@@ -61,12 +73,22 @@ namespace PearlGreySoftware
                 m_playerHandRight = FindHand(PlayerHandController.HandSide.Right);
             }
 
+            var inputStates = GameManager.Instance.InputManager.InputStates;
+            inputStates[m_thumbXYButtonLeftInputName].OnInputDown.AddListener(OnAnyThumbXYButtonDown);
+            inputStates[m_thumbXYButtonRightInputName].OnInputDown.AddListener(OnAnyThumbXYButtonDown);
+
+            ResetPlayerRootTransform();
+
             SetStatus("Initialized");
         }
 
-        private void ResetPlayerPositionInternal()
+        private void ResetPlayerRootTransform()
         {
-            // TODO-RPB: Fill this in
+            float yRotationDelta = m_headCalibrationPoint.transform.eulerAngles.y - m_playerHead.transform.eulerAngles.y;
+            m_playerRootTransform.rotation *= Quaternion.Euler(0f, yRotationDelta, 0f);
+
+            var positionDelta = m_headCalibrationPoint.transform.position - m_playerHead.transform.position;
+            m_playerRootTransform.position += positionDelta;
         }
 
         private PlayerHandController FindHand(PlayerHandController.HandSide chirality)
@@ -85,6 +107,11 @@ namespace PearlGreySoftware
 
             SetStatus($"No {chirality} Hand found", LogType.Error);
             return null;
+        }
+
+        private void OnAnyThumbXYButtonDown()
+        {
+            ResetPlayerRootTransform();
         }
 
         #endregion

@@ -15,8 +15,7 @@ namespace PearlGreySoftware
 
         #region Private Fields
 
-        private InputManager m_inputManager = null;
-        private OVRManager m_ovrManager = null;
+        private IInputManager m_inputManager = null;
 
         #endregion
 
@@ -31,14 +30,9 @@ namespace PearlGreySoftware
 
         #region Public Properties
 
-        public InputManager InputManager
+        public IInputManager InputManager
         {
             get { return m_inputManager; }
-        }
-
-        public OVRManager OVRManager
-        {
-            get { return m_ovrManager; }
         }
 
         #endregion
@@ -64,9 +58,8 @@ namespace PearlGreySoftware
             // RPB: GameManager needs to persist through the application lifetime
             DontDestroyOnLoad(this.gameObject);
 
-            m_ovrManager = gameObject.AddComponent<OVRManager>();
-
-            m_inputManager = gameObject.AddComponent<InputManager>();
+            // TODO-RPB: Recognize what current XR device is being used. Then create the appropriate InputManager
+            m_inputManager = gameObject.AddComponent<OculusInputManager>();
             m_inputManager.InitializeFromGameManager(this);
 
             SetStatus("Initialized");
@@ -76,4 +69,5 @@ namespace PearlGreySoftware
         #endregion
 
     }
+
 }

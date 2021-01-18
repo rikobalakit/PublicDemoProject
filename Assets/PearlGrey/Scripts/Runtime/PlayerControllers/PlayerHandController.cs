@@ -7,17 +7,6 @@ namespace PearlGreySoftware
     public class PlayerHandController : PlayerBodyPartController
     {
 
-        #region Private Constants
-
-        // TODO-RPB: Abstract this in InputManager.
-        private object INPUT_IDENTIFIER_LEFT_GRIP = OVRInput.Axis1D.PrimaryHandTrigger;
-        private object INPUT_IDENTIFIER_RIGHT_GRIP = OVRInput.Axis1D.SecondaryHandTrigger;
-
-        private object INPUT_IDENTIFIER_LEFT_INDEX = OVRInput.Axis1D.PrimaryIndexTrigger;
-        private object INPUT_IDENTIFIER_RIGHT_INDEX = OVRInput.Axis1D.SecondaryIndexTrigger;
-
-        #endregion
-
         #region Public Enums
 
         public enum HandSide
@@ -59,6 +48,9 @@ namespace PearlGreySoftware
         [SerializeField]
         private Transform m_indexPivot = null;
 
+        private InputName m_gripInputName = InputName.None;
+        private InputName m_indexInputName = InputName.None;
+
         #endregion
 
         #region Protected Methods
@@ -86,30 +78,22 @@ namespace PearlGreySoftware
 
             if (m_chirality == HandSide.Left)
             {
-                var inputStates = GameManager.Instance.InputManager.InputStates;
-                inputStates[INPUT_IDENTIFIER_LEFT_GRIP].OnValueChanged.AddListener(OnGripValueChanged);
-                inputStates[INPUT_IDENTIFIER_LEFT_GRIP].OnInputUp.AddListener(OnGripUp);
-                inputStates[INPUT_IDENTIFIER_LEFT_GRIP].OnInputDown.AddListener(OnGripDown);
-
-                inputStates[INPUT_IDENTIFIER_LEFT_INDEX].OnValueChanged.AddListener(OnIndexValueChanged);
-                inputStates[INPUT_IDENTIFIER_LEFT_INDEX].OnInputUp.AddListener(OnIndexUp);
-                inputStates[INPUT_IDENTIFIER_LEFT_INDEX].OnInputDown.AddListener(OnIndexDown);
+                m_gripInputName = InputName.GripLeftAxis;
+                m_indexInputName = InputName.IndexLeftAxis;
             }
             else if (m_chirality == HandSide.Right)
             {
-                var inputStates = GameManager.Instance.InputManager.InputStates;
-                inputStates[INPUT_IDENTIFIER_RIGHT_GRIP].OnValueChanged.AddListener(OnGripValueChanged);
-                inputStates[INPUT_IDENTIFIER_RIGHT_GRIP].OnInputUp.AddListener(OnGripUp);
-                inputStates[INPUT_IDENTIFIER_RIGHT_GRIP].OnInputDown.AddListener(OnGripDown);
-
-                inputStates[INPUT_IDENTIFIER_RIGHT_INDEX].OnValueChanged.AddListener(OnIndexValueChanged);
-                inputStates[INPUT_IDENTIFIER_RIGHT_INDEX].OnInputUp.AddListener(OnIndexUp);
-                inputStates[INPUT_IDENTIFIER_RIGHT_INDEX].OnInputDown.AddListener(OnIndexDown);
+                m_gripInputName = InputName.GripRightAxis;
+                m_indexInputName = InputName.IndexRightAxis;
             }
             else
             {
                 SetStatus("Tried to initialize while chirality was unassigned");
             }
+
+            var inputStates = GameManager.Instance.InputManager.InputStates;
+            inputStates[m_gripInputName].OnValueChanged.AddListener(OnGripValueChanged);
+            inputStates[m_indexInputName].OnValueChanged.AddListener(OnIndexValueChanged);
         }
 
         private void SetChiralityFromTrackedPoseDriver()
@@ -135,16 +119,6 @@ namespace PearlGreySoftware
         private void OnGripValueChanged(float newValue)
         {
             UpdateGripVisuals(newValue);
-        }
-
-        private void OnGripDown()
-        {
-
-        }
-
-        private void OnGripUp()
-        {
-
         }
 
         private void UpdateGripVisuals(float newValue)
@@ -176,16 +150,6 @@ namespace PearlGreySoftware
             UpdatIndexVisuals(newValue);
         }
 
-        private void OnIndexDown()
-        {
-
-        }
-
-        private void OnIndexUp()
-        {
-
-        }
-
         private void UpdatIndexVisuals(float newValue)
         {
             if (m_indexPivot == null)
@@ -210,6 +174,10 @@ namespace PearlGreySoftware
 
         }
 
+        private void OnThumbXYButtonDown()
+        {
+            
+        }
 
         #endregion
 
