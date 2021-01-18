@@ -13,6 +13,9 @@ namespace PearlGreySoftware
         private object INPUT_IDENTIFIER_LEFT_GRIP = OVRInput.Axis1D.PrimaryHandTrigger;
         private object INPUT_IDENTIFIER_RIGHT_GRIP = OVRInput.Axis1D.SecondaryHandTrigger;
 
+        private object INPUT_IDENTIFIER_LEFT_INDEX = OVRInput.Axis1D.PrimaryIndexTrigger;
+        private object INPUT_IDENTIFIER_RIGHT_INDEX = OVRInput.Axis1D.SecondaryIndexTrigger;
+
         #endregion
 
         #region Public Enums
@@ -50,6 +53,12 @@ namespace PearlGreySoftware
         [SerializeField]
         private HandSide m_chirality = default;
 
+        [SerializeField]
+        private Transform m_gripPivot = null;
+
+        [SerializeField]
+        private Transform m_indexPivot = null;
+
         #endregion
 
         #region Protected Methods
@@ -81,6 +90,10 @@ namespace PearlGreySoftware
                 inputStates[INPUT_IDENTIFIER_LEFT_GRIP].OnValueChanged.AddListener(OnGripValueChanged);
                 inputStates[INPUT_IDENTIFIER_LEFT_GRIP].OnInputUp.AddListener(OnGripUp);
                 inputStates[INPUT_IDENTIFIER_LEFT_GRIP].OnInputDown.AddListener(OnGripDown);
+
+                inputStates[INPUT_IDENTIFIER_LEFT_INDEX].OnValueChanged.AddListener(OnIndexValueChanged);
+                inputStates[INPUT_IDENTIFIER_LEFT_INDEX].OnInputUp.AddListener(OnIndexUp);
+                inputStates[INPUT_IDENTIFIER_LEFT_INDEX].OnInputDown.AddListener(OnIndexDown);
             }
             else if (m_chirality == HandSide.Right)
             {
@@ -88,6 +101,10 @@ namespace PearlGreySoftware
                 inputStates[INPUT_IDENTIFIER_RIGHT_GRIP].OnValueChanged.AddListener(OnGripValueChanged);
                 inputStates[INPUT_IDENTIFIER_RIGHT_GRIP].OnInputUp.AddListener(OnGripUp);
                 inputStates[INPUT_IDENTIFIER_RIGHT_GRIP].OnInputDown.AddListener(OnGripDown);
+
+                inputStates[INPUT_IDENTIFIER_RIGHT_INDEX].OnValueChanged.AddListener(OnIndexValueChanged);
+                inputStates[INPUT_IDENTIFIER_RIGHT_INDEX].OnInputUp.AddListener(OnIndexUp);
+                inputStates[INPUT_IDENTIFIER_RIGHT_INDEX].OnInputDown.AddListener(OnIndexDown);
             }
             else
             {
@@ -117,19 +134,82 @@ namespace PearlGreySoftware
 
         private void OnGripValueChanged(float newValue)
         {
-            
+            UpdateGripVisuals(newValue);
         }
 
         private void OnGripDown()
         {
-            
+
         }
 
         private void OnGripUp()
         {
-            
+
         }
-        
+
+        private void UpdateGripVisuals(float newValue)
+        {
+            if (m_gripPivot == null)
+            {
+                SetStatus($"{nameof(m_gripPivot)} null!");
+                return;
+            }
+
+            float yRotation = 0f;
+            // TODO-RPB: Generalize these magic numbers
+            if (m_chirality == HandSide.Left)
+            {
+                yRotation = Mathf.Lerp(-30f, 120f, newValue);
+            }
+            else
+            {
+                yRotation = Mathf.Lerp(30f, -120f, newValue);
+                
+            }
+
+            m_gripPivot.localRotation = Quaternion.Euler(0f, yRotation, 0f);
+
+        }
+
+        private void OnIndexValueChanged(float newValue)
+        {
+            UpdatIndexVisuals(newValue);
+        }
+
+        private void OnIndexDown()
+        {
+
+        }
+
+        private void OnIndexUp()
+        {
+
+        }
+
+        private void UpdatIndexVisuals(float newValue)
+        {
+            if (m_indexPivot == null)
+            {
+                SetStatus($"{nameof(m_indexPivot)} null!");
+                return;
+            }
+
+            float yRotation = 0f;
+            // TODO-RPB: Generalize these magic numbers
+            if (m_chirality == HandSide.Left)
+            {
+                yRotation = Mathf.Lerp(-30f, 120f, newValue);
+            }
+            else
+            {
+                yRotation = Mathf.Lerp(30f, -120f, newValue);
+
+            }
+
+            m_indexPivot.localRotation = Quaternion.Euler(0f, yRotation, 0f);
+
+        }
+
 
         #endregion
 
