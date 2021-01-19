@@ -2,7 +2,7 @@
 
 namespace PearlGreySoftware
 {
-    public class InteractiveSteeringWheel : PearlBehaviour
+    public class InteractiveSteeringWheel : InteractiveObject
     {
         // TODO-RPB: Fill me in!
     }

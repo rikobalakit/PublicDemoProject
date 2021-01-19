@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8059180476867177085}
   - component: {fileID: 3559060943833654579}
   - component: {fileID: 793737283979007301}
-  - component: {fileID: 3126199104475240359}
   m_Layer: 0
   m_Name: Fingers
   m_TagString: Untagged
@@ -80,19 +79,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &3126199104475240359
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85034821088794008}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &445355679164615552
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,7 +90,6 @@ GameObject:
   - component: {fileID: 1100134460873256958}
   - component: {fileID: 6203955188602937943}
   - component: {fileID: 8017968114668839501}
-  - component: {fileID: 9094383851505955942}
   m_Layer: 0
   m_Name: Fingers
   m_TagString: Untagged
@@ -173,19 +158,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &9094383851505955942
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 445355679164615552}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &816593303974963365
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +200,6 @@ GameObject:
   - component: {fileID: 8664241505474884201}
   - component: {fileID: 2933152006344497191}
   - component: {fileID: 488530285430433023}
-  - component: {fileID: 4616601281144536098}
   m_Layer: 0
   m_Name: Fingers
   m_TagString: Untagged
@@ -297,19 +268,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &4616601281144536098
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3017384689667737234}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4559227631722540972
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +279,6 @@ GameObject:
   - component: {fileID: 1294659453556215335}
   - component: {fileID: 8074177517016344270}
   - component: {fileID: 7926673463363631253}
-  - component: {fileID: 1960285393800020627}
   m_Layer: 8
   m_Name: Sphere
   m_TagString: Untagged
@@ -390,19 +347,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &1960285393800020627
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4559227631722540972}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4559785633432204303
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,7 +420,6 @@ GameObject:
   - component: {fileID: 5694228452248883648}
   - component: {fileID: 809001837036435255}
   - component: {fileID: 1144025785879973065}
-  - component: {fileID: 5734337646604102463}
   m_Layer: 0
   m_Name: Fingers
   m_TagString: Untagged
@@ -545,19 +488,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &5734337646604102463
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6088651088223262477}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8976238131729957791
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,6 +530,8 @@ GameObject:
   - component: {fileID: 9010516784938079999}
   - component: {fileID: 9010516784938079998}
   - component: {fileID: 9010516784938079997}
+  - component: {fileID: 2425589488123245859}
+  - component: {fileID: 7610021160395476626}
   m_Layer: 0
   m_Name: HandLeft
   m_TagString: Untagged
@@ -660,6 +592,36 @@ MonoBehaviour:
   m_chirality: 0
   m_gripPivot: {fileID: 1626105537709961324}
   m_indexPivot: {fileID: 5707744925925807814}
+  m_handCollider: {fileID: 2425589488123245859}
+--- !u!135 &2425589488123245859
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9010516784938079984}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0.08}
+--- !u!54 &7610021160395476626
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9010516784938079984}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &9010516784969075862
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,6 +821,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentLogLevel: 3
   m_status: Uninitialized
+  m_playerRootTransform: {fileID: 0}
   m_playerHead: {fileID: 9010516784969075856}
   m_playerHandLeft: {fileID: 9010516784938079997}
   m_playerHandRight: {fileID: 9010516785883779091}
@@ -874,7 +837,6 @@ GameObject:
   - component: {fileID: 9010516785676255852}
   - component: {fileID: 9010516785676255849}
   - component: {fileID: 9010516785676255850}
-  - component: {fileID: 9010516785676255851}
   m_Layer: 0
   m_Name: Palms
   m_TagString: Untagged
@@ -943,19 +905,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &9010516785676255851
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9010516785676255853}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9010516785814630224
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,7 +916,6 @@ GameObject:
   - component: {fileID: 9010516785814630239}
   - component: {fileID: 9010516785814630236}
   - component: {fileID: 9010516785814630237}
-  - component: {fileID: 9010516785814630238}
   m_Layer: 0
   m_Name: Palms
   m_TagString: Untagged
@@ -1036,19 +984,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &9010516785814630238
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9010516785814630224}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9010516785883779094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1060,6 +995,8 @@ GameObject:
   - component: {fileID: 9010516785883779093}
   - component: {fileID: 9010516785883779092}
   - component: {fileID: 9010516785883779091}
+  - component: {fileID: 457775473627011043}
+  - component: {fileID: 5363587446263511613}
   m_Layer: 0
   m_Name: HandRight
   m_TagString: Untagged
@@ -1120,3 +1057,33 @@ MonoBehaviour:
   m_chirality: 0
   m_gripPivot: {fileID: 1215357796704509849}
   m_indexPivot: {fileID: 4821936493624018190}
+  m_handCollider: {fileID: 457775473627011043}
+--- !u!135 &457775473627011043
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9010516785883779094}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0.08}
+--- !u!54 &5363587446263511613
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9010516785883779094}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

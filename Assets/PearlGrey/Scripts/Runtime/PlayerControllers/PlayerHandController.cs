@@ -51,6 +51,9 @@ namespace PearlGreySoftware
         private InputName m_gripInputName = InputName.None;
         private InputName m_indexInputName = InputName.None;
 
+        private InteractiveObject m_lastSuccessfulHighlightedInteractiveObject = null;
+        private InteractiveObject m_currentInteractingOnject = null; // RPB: For now, keep it simple and only consider one object interactible at a time.
+
         #endregion
 
         #region Protected Methods
@@ -95,6 +98,8 @@ namespace PearlGreySoftware
 
             var inputStates = GameManager.Instance.InputManager.InputStates;
             inputStates[m_gripInputName].OnValueChanged.AddListener(OnGripValueChanged);
+            inputStates[m_gripInputName].OnInputUp.AddListener(OnGripUp);
+            inputStates[m_gripInputName].OnInputDown.AddListener(OnGripDown);
             inputStates[m_indexInputName].OnValueChanged.AddListener(OnIndexValueChanged);
 
             SetInitialized($"Initialization as {m_chirality} hand finished");
@@ -125,6 +130,56 @@ namespace PearlGreySoftware
             UpdateGripVisuals(newValue);
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            var possibleInteractiveObject = collision.gameObject.GetComponent<InteractiveObject>();
+
+            if (possibleInteractiveObject != null)
+            {
+                if (possibleInteractiveObject.TryStartHighlight(this))
+                {
+                    m_lastSuccessfulHighlightedInteractiveObject = possibleInteractiveObject;
+                }
+            }
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            var possibleInteractiveObject = collision.gameObject.GetComponent<InteractiveObject>();
+
+            if (possibleInteractiveObject != null)
+            {
+                possibleInteractiveObject.TryEndHighlight(this);
+
+                if (m_lastSuccessfulHighlightedInteractiveObject == possibleInteractiveObject)
+                {
+                    m_lastSuccessfulHighlightedInteractiveObject = null;
+                }
+            }
+        }
+
+        private void OnGripDown()
+        {
+            if (m_lastSuccessfulHighlightedInteractiveObject != null && m_currentInteractingOnject == null)
+            {
+                if (m_lastSuccessfulHighlightedInteractiveObject.TryStartInteraction(this))
+                {
+                    m_currentInteractingOnject = m_lastSuccessfulHighlightedInteractiveObject;
+                }
+            }
+        }
+
+        private void OnGripUp()
+        {
+            if (m_currentInteractingOnject != null)
+            {
+                if (m_currentInteractingOnject.TryEndInteraction(this))
+                {
+                    m_currentInteractingOnject = null;
+                }
+            }
+        }
+
         private void UpdateGripVisuals(float newValue)
         {
             if (m_gripPivot == null)
@@ -139,10 +194,10 @@ namespace PearlGreySoftware
             {
                 yRotation = Mathf.Lerp(-30f, 120f, newValue);
             }
-            else
+            else if (m_chirality == HandSide.Right)
             {
                 yRotation = Mathf.Lerp(30f, -120f, newValue);
-                
+
             }
 
             m_gripPivot.localRotation = Quaternion.Euler(0f, yRotation, 0f);
@@ -168,7 +223,7 @@ namespace PearlGreySoftware
             {
                 yRotation = Mathf.Lerp(-30f, 120f, newValue);
             }
-            else
+            else if (m_chirality == HandSide.Right)
             {
                 yRotation = Mathf.Lerp(30f, -120f, newValue);
 
@@ -176,11 +231,6 @@ namespace PearlGreySoftware
 
             m_indexPivot.localRotation = Quaternion.Euler(0f, yRotation, 0f);
 
-        }
-
-        private void OnThumbXYButtonDown()
-        {
-            
         }
 
         #endregion
