@@ -14,13 +14,17 @@ namespace PearlGreySoftware
         public VoidEvent OnShootingStarted = new VoidEvent();
         public VoidEvent OnShootingEnded = new VoidEvent();
         public VoidEvent OnSpecialWeaponTriggered = new VoidEvent();
+        public FloatEvent OnSteeringValueChanged = new FloatEvent();
+
+        #endregion
+
+        #region Private Constants
+
+        private const float MAXIMUM_ABSOLUTE_ANGLE = 60f;
 
         #endregion
 
         #region Private Fields
-
-        [SerializeField]
-        private float m_maximumAbsoluteAngle = 60f;
 
         [SerializeField]
         private GameObject m_visuals = null;
@@ -72,9 +76,10 @@ namespace PearlGreySoftware
         protected new void Update()
         {
             base.Update();
-            m_currentAngle = Mathf.Clamp(GetSteeringWheelAngleBasedOnHandPositions(), -m_maximumAbsoluteAngle, m_maximumAbsoluteAngle);
+            m_currentAngle = Mathf.Clamp(GetSteeringWheelAngleBasedOnHandPositions(), -MAXIMUM_ABSOLUTE_ANGLE, MAXIMUM_ABSOLUTE_ANGLE);
             UpdateTriggerFunctions();
             UpdateVisuals();
+            UpdateSteeringValue();
         }
 
         #endregion
@@ -103,16 +108,19 @@ namespace PearlGreySoftware
             else if (m_handsInteractingWithMe.Count == 2)
             {
                 // RPB: Angle is angle from left to right hand
-                // TODO-RPB: Check if this works if the left and right hands are switched for some weird reason...
-                // TODO-RPB: Fix how this breaks depending on order of engagement with the hands
-                // Solution is probably figuring out which is a left and which is a right hand, and/or adding/subtracking 180 degrees.
                 var hand0CurrentPosition = transform.InverseTransformPoint(m_handsInteractingWithMe[0].transform.position);
                 var hand1CurrentPosition = transform.InverseTransformPoint(m_handsInteractingWithMe[1].transform.position);
                 var flattened0HandCurrentPosition = new Vector2(hand0CurrentPosition.x, hand0CurrentPosition.y);
                 var flattened1HandCurrentPosition = new Vector2(hand1CurrentPosition.x, hand1CurrentPosition.y);
 
-                
-                return Vector2.SignedAngle(new Vector2(1f, 0f), flattened0HandCurrentPosition - flattened1HandCurrentPosition);
+                if (flattened0HandCurrentPosition.x > flattened1HandCurrentPosition.x)
+                {
+                    return Vector2.SignedAngle(new Vector2(1f, 0f), flattened0HandCurrentPosition - flattened1HandCurrentPosition);
+                }
+                else
+                {
+                    return Vector2.SignedAngle(new Vector2(1f, 0f), flattened1HandCurrentPosition - flattened0HandCurrentPosition);
+                }
             }
             else
             {
@@ -158,6 +166,12 @@ namespace PearlGreySoftware
 
                 m_currentShootingState = newShootingState;
             }
+        }
+
+        private void UpdateSteeringValue()
+        {
+            var normalizedSteeringValue = -m_currentAngle / MAXIMUM_ABSOLUTE_ANGLE;
+            OnSteeringValueChanged.Invoke(normalizedSteeringValue);
         }
 
         private void OnTriggerDown(PlayerHandController hand)
