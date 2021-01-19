@@ -7,6 +7,9 @@ namespace PearlGreySoftware
     #region Public Classes
 
     [Serializable]
+    public class HandVoidEvent : UnityEvent<PlayerHandController> { }
+
+    [Serializable]
     public class FloatEvent: UnityEvent<float> { }
 
     [Serializable]

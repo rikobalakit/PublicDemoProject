@@ -18,6 +18,14 @@ namespace PearlGreySoftware
 
         #endregion
 
+        #region Public Events
+
+        public HandVoidEvent OnTriggerDown = new HandVoidEvent();
+        public HandVoidEvent OnTriggerUp = new HandVoidEvent();
+        public HandVoidEvent OnFaceButtonDown = new HandVoidEvent();
+
+        #endregion
+
         #region Public Properties
 
         public HandSide Chirality
@@ -50,6 +58,8 @@ namespace PearlGreySoftware
 
         private InputName m_gripInputName = InputName.None;
         private InputName m_indexInputName = InputName.None;
+        private InputName m_faceFrontButtonName = InputName.None;
+        private InputName m_faceBackButtonName = InputName.None;
 
         private InteractiveObject m_lastSuccessfulHighlightedInteractiveObject = null;
         private InteractiveObject m_currentInteractingOnject = null; // RPB: For now, keep it simple and only consider one object interactible at a time.
@@ -84,11 +94,15 @@ namespace PearlGreySoftware
             {
                 m_gripInputName = InputName.GripLeftAxis;
                 m_indexInputName = InputName.IndexLeftAxis;
+                m_faceFrontButtonName = InputName.FaceFrontLeftButton;
+                m_faceBackButtonName = InputName.FaceBackLeftButton;
             }
             else if (m_chirality == HandSide.Right)
             {
                 m_gripInputName = InputName.GripRightAxis;
                 m_indexInputName = InputName.IndexRightAxis;
+                m_faceFrontButtonName = InputName.FaceFrontRightButton;
+                m_faceBackButtonName = InputName.FaceBackRightButton;
             }
             else
             {
@@ -101,6 +115,10 @@ namespace PearlGreySoftware
             inputStates[m_gripInputName].OnInputUp.AddListener(OnGripUp);
             inputStates[m_gripInputName].OnInputDown.AddListener(OnGripDown);
             inputStates[m_indexInputName].OnValueChanged.AddListener(OnIndexValueChanged);
+            inputStates[m_indexInputName].OnInputUp.AddListener(OnIndexUp);
+            inputStates[m_indexInputName].OnInputDown.AddListener(OnIndexDown);
+            inputStates[m_faceFrontButtonName].OnInputDown.AddListener(OnAnyFaceButtonDown);
+            inputStates[m_faceBackButtonName].OnInputDown.AddListener(OnAnyFaceButtonDown);
 
             SetInitialized($"Initialization as {m_chirality} hand finished");
         }
@@ -128,6 +146,48 @@ namespace PearlGreySoftware
         private void OnGripValueChanged(float newValue)
         {
             UpdateGripVisuals(newValue);
+        }
+
+        private void OnGripDown()
+        {
+            if (m_lastSuccessfulHighlightedInteractiveObject != null && m_currentInteractingOnject == null)
+            {
+                if (m_lastSuccessfulHighlightedInteractiveObject.TryStartInteraction(this))
+                {
+                    m_currentInteractingOnject = m_lastSuccessfulHighlightedInteractiveObject;
+                }
+            }
+        }
+
+        private void OnGripUp()
+        {
+            if (m_currentInteractingOnject != null)
+            {
+                if (m_currentInteractingOnject.TryEndInteraction(this))
+                {
+                    m_currentInteractingOnject = null;
+                }
+            }
+        }
+
+        private void OnIndexValueChanged(float newValue)
+        {
+            UpdateIndexVisuals(newValue);
+        }
+
+        private void OnIndexDown()
+        {
+            OnTriggerDown.Invoke(this);
+        }
+
+        private void OnIndexUp()
+        {
+            OnTriggerUp.Invoke(this);
+        }
+
+        private void OnAnyFaceButtonDown()
+        {
+            OnFaceButtonDown.Invoke(this);
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -158,28 +218,6 @@ namespace PearlGreySoftware
             }
         }
 
-        private void OnGripDown()
-        {
-            if (m_lastSuccessfulHighlightedInteractiveObject != null && m_currentInteractingOnject == null)
-            {
-                if (m_lastSuccessfulHighlightedInteractiveObject.TryStartInteraction(this))
-                {
-                    m_currentInteractingOnject = m_lastSuccessfulHighlightedInteractiveObject;
-                }
-            }
-        }
-
-        private void OnGripUp()
-        {
-            if (m_currentInteractingOnject != null)
-            {
-                if (m_currentInteractingOnject.TryEndInteraction(this))
-                {
-                    m_currentInteractingOnject = null;
-                }
-            }
-        }
-
         private void UpdateGripVisuals(float newValue)
         {
             if (m_gripPivot == null)
@@ -204,12 +242,7 @@ namespace PearlGreySoftware
 
         }
 
-        private void OnIndexValueChanged(float newValue)
-        {
-            UpdatIndexVisuals(newValue);
-        }
-
-        private void UpdatIndexVisuals(float newValue)
+        private void UpdateIndexVisuals(float newValue)
         {
             if (m_indexPivot == null)
             {

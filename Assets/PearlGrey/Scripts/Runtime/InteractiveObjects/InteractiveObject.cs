@@ -38,6 +38,14 @@ namespace PearlGreySoftware
 
         #endregion
 
+        #region Protected Fields
+
+        protected List<PlayerHandController> m_handsHighlightingMe = new List<PlayerHandController>();
+        protected List<PlayerHandController> m_handsInteractingWithMe = new List<PlayerHandController>();
+        protected Dictionary<PlayerHandController, Vector3> m_interactionStartPoint = new Dictionary<PlayerHandController, Vector3>();
+
+        #endregion
+
         #region Private Fields
 
         [ReadOnly]
@@ -46,10 +54,6 @@ namespace PearlGreySoftware
 
         [SerializeField]
         private bool m_isTwoHanded = false;
-
-        private List<PlayerHandController> m_handsHighlightingMe = new List<PlayerHandController>();
-        private List<PlayerHandController> m_handsInteractingWithMe = new List<PlayerHandController>();
-
 
         #endregion
 
@@ -92,11 +96,12 @@ namespace PearlGreySoftware
             }
         }
 
-        public bool TryStartInteraction(PlayerHandController hand)
+        public virtual bool TryStartInteraction(PlayerHandController hand)
         {
             if (m_isTwoHanded || m_handsInteractingWithMe.Count == 0)
             {
                 m_handsInteractingWithMe.Add(hand);
+                m_interactionStartPoint.Add(hand, hand.gameObject.transform.position);
                 return true;
             }
             else
@@ -105,27 +110,23 @@ namespace PearlGreySoftware
             }
         }
 
-        public bool TryEndInteraction(PlayerHandController hand)
+        public virtual bool TryEndInteraction(PlayerHandController hand)
         {
             m_handsInteractingWithMe.Remove(hand);
+            m_interactionStartPoint.Remove(hand);
             return true;
         }
 
         #endregion
 
-        #region Private Methods
+        #region Protected Methods
 
-        private void Start()
+        protected void Start()
         {
             RegisterInteractiveObject();
         }
 
-        private void OnDestroy()
-        {
-            UnregisterInteractiveObject();
-        }
-
-        private void Update()
+        protected void Update()
         {
             var newInteractionState = InteractionState.Unassigned;
 
@@ -176,6 +177,15 @@ namespace PearlGreySoftware
 
                 m_currentInteractionState = newInteractionState;
             }
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void OnDestroy()
+        {
+            UnregisterInteractiveObject();
         }
 
         private void RegisterInteractiveObject()

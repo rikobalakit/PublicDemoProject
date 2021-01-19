@@ -24,6 +24,10 @@ namespace PearlGreySoftware
             {InputName.GripRightAxis, OVRInput.Axis1D.SecondaryHandTrigger},
             {InputName.IndexLeftAxis, OVRInput.Axis1D.PrimaryIndexTrigger},
             {InputName.IndexRightAxis, OVRInput.Axis1D.SecondaryIndexTrigger},
+            {InputName.FaceFrontLeftButton, OVRInput.Button.Three},
+            {InputName.FaceFrontRightButton, OVRInput.Button.One},
+            {InputName.FaceBackLeftButton, OVRInput.Button.Four},
+            {InputName.FaceBackRightButton, OVRInput.Button.Two},
         };
 
         private GameManager m_gameManager = null;

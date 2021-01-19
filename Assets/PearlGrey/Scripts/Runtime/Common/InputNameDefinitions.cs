@@ -13,7 +13,11 @@ namespace PearlGreySoftware
         IndexLeftAxis,
         IndexRightAxis,
         ThumbXYLeftButton,
-        ThumbXYRightButton
+        ThumbXYRightButton,
+        FaceFrontLeftButton,
+        FaceFrontRightButton,
+        FaceBackLeftButton,
+        FaceBackRightButton
     }
 
     #endregion
