@@ -5,13 +5,24 @@ namespace PearlGreySoftware
 {
     public class SetMaterialOnRenderers : MonoBehaviour
     {
+
+        #region Private Fields
+
         [SerializeField]
         private List<Renderer> m_renderers = new List<Renderer>();
+
+        #endregion
+
+        #region Public Methods
 
         public void SetMaterials(Material newMaterial)
         {
             SetMaterialsInternal(newMaterial);
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void SetMaterialsInternal(Material newMaterial)
         {
@@ -23,5 +34,8 @@ namespace PearlGreySoftware
                 }
             }
         }
+
+        #endregion
+
     }
 }

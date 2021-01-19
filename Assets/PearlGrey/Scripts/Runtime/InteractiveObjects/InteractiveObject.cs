@@ -7,7 +7,7 @@ namespace PearlGreySoftware
     [RequireComponent(typeof(Collider))]
     public class InteractiveObject : PearlBehaviour
     {
-
+        // TODO-RPB: Init statuses
         // TODO-RPB: Standard haptic feedback?
 
         #region Public Events

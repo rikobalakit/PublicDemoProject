@@ -6,6 +6,11 @@ namespace PearlGreySoftware
 {
     public class ShipController : PearlBehaviour
     {
+
+        // TODO-RPB: Separate WeaponsController maybe?
+
+        #region Private Fields
+
         [SerializeField]
         private InteractiveSteeringWheel m_steeringWheel = null;
 
@@ -14,6 +19,10 @@ namespace PearlGreySoftware
 
         [SerializeField]
         private Text m_tempSpecialWeaponStatusLabel = null;
+
+        #endregion
+
+        #region Private Methods
 
         private void Start()
         {
@@ -46,5 +55,8 @@ namespace PearlGreySoftware
             yield return new WaitForSeconds(1f);
             m_tempSpecialWeaponStatusLabel.text = string.Empty;
         }
+
+        #endregion
+
     }
 }

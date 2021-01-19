@@ -6,6 +6,10 @@ namespace PearlGreySoftware
 
     public class PlayerHandController : PlayerBodyPartController
     {
+        // TODO-RPB: Spin off the animation functionality into a PlayerHandAnimationController or something like that
+        // TODO-RPB: Spin off the face button and other event things into, for example, a SpaceShooterPlayerHandController class that inherits from this
+        // TODO-RPB: The above steps would help make this a more generalized template to use for other VR apps/games
+        // TODO-RPB: Add haptics
 
         #region Public Enums
 

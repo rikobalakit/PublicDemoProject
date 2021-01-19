@@ -5,6 +5,9 @@ namespace PearlGreySoftware
 {
     public class InteractiveSteeringWheel : InteractiveObject
     {
+        // TODO-RPB: Init statuses
+        // TODO-RPB: Spin out the weapons-control related functionality out, create a bespoke class for a space ship steering wheel by composition
+        // TODO-RPB: Want to be able to generalize this wheel for other usages
 
         #region Public Events
 
@@ -108,6 +111,7 @@ namespace PearlGreySoftware
                 var flattened0HandCurrentPosition = new Vector2(hand0CurrentPosition.x, hand0CurrentPosition.y);
                 var flattened1HandCurrentPosition = new Vector2(hand1CurrentPosition.x, hand1CurrentPosition.y);
 
+                
                 return Vector2.SignedAngle(new Vector2(1f, 0f), flattened0HandCurrentPosition - flattened1HandCurrentPosition);
             }
             else
@@ -158,19 +162,16 @@ namespace PearlGreySoftware
 
         private void OnTriggerDown(PlayerHandController hand)
         {
-            Debug.LogError("hi trigger down");
             m_handsPullingTrigger.Add(hand);
         }
 
         private void OnTriggerUp(PlayerHandController hand)
         {
-            Debug.LogError("hi trigger up");
             m_handsPullingTrigger.Remove(hand);
         }
 
         private void OnFaceButtonDown(PlayerHandController hand)
         {
-            Debug.LogError("hi face button down");
             OnSpecialWeaponTriggered.Invoke();
         }
 

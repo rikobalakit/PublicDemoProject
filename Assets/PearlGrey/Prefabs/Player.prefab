@@ -589,10 +589,18 @@ MonoBehaviour:
   CurrentLogLevel: 3
   m_status: Uninitialized
   m_trackedPoseDriver: {fileID: 9010516784938079998}
+  OnTriggerDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFaceButtonDown:
+    m_PersistentCalls:
+      m_Calls: []
   m_chirality: 0
   m_gripPivot: {fileID: 1626105537709961324}
   m_indexPivot: {fileID: 5707744925925807814}
-  m_handCollider: {fileID: 2425589488123245859}
 --- !u!135 &2425589488123245859
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -617,7 +625,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -1054,10 +1062,18 @@ MonoBehaviour:
   CurrentLogLevel: 3
   m_status: Uninitialized
   m_trackedPoseDriver: {fileID: 9010516785883779092}
+  OnTriggerDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFaceButtonDown:
+    m_PersistentCalls:
+      m_Calls: []
   m_chirality: 0
   m_gripPivot: {fileID: 1215357796704509849}
   m_indexPivot: {fileID: 4821936493624018190}
-  m_handCollider: {fileID: 457775473627011043}
 --- !u!135 &457775473627011043
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1082,7 +1098,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
