@@ -68,13 +68,14 @@ namespace PearlGreySoftware
 
         private IEnumerator Initialize()
         {
-            SetStatus("Waiting for dependencies...");
+            SetStatus(StandardStatus.INITIALIZATION_RUNNING);
+            SetStatus(StandardStatus.INITIALIZATION_WAITING);
 
             yield return new WaitWhile(() => GameManager.Instance == null);
             yield return new WaitWhile(() => GameManager.Instance.InputManager == null);
             yield return new WaitWhile(() => !GameManager.Instance.InputManager.IsInitialized);
 
-            SetStatus("Dependencies finished. Initializing...");
+            SetStatus(StandardStatus.INITIALIZATION_RUNNING);
 
             if (m_chirality == HandSide.Left)
             {
@@ -88,12 +89,15 @@ namespace PearlGreySoftware
             }
             else
             {
-                SetStatus("Tried to initialize while chirality was unassigned");
+                SetStatus(StandardStatus.INITIALIZATION_STOPPED_ERROR);
+                yield break;
             }
 
             var inputStates = GameManager.Instance.InputManager.InputStates;
             inputStates[m_gripInputName].OnValueChanged.AddListener(OnGripValueChanged);
             inputStates[m_indexInputName].OnValueChanged.AddListener(OnIndexValueChanged);
+
+            SetInitialized($"Initialization as {m_chirality} hand finished");
         }
 
         private void SetChiralityFromTrackedPoseDriver()
@@ -101,17 +105,17 @@ namespace PearlGreySoftware
             if (m_trackedPoseDriver.poseSource == UnityEngine.SpatialTracking.TrackedPoseDriver.TrackedPose.LeftPose)
             {
                 m_chirality = HandSide.Left;
-                SetStatus("Chirality Set: Left");
+                Log("Chirality Set: Left");
             }
             else if (m_trackedPoseDriver.poseSource == UnityEngine.SpatialTracking.TrackedPoseDriver.TrackedPose.RightPose)
             {
                 m_chirality = HandSide.Right;
-                SetStatus("Chirality Set: Right");
+                Log("Chirality Set: Right");
             }
             else
             {
                 Debug.LogError($"Could not set chirality for {gameObject.name}");
-                SetStatus("Couldn't set chirality", LogType.Error);
+                Log("Couldn't set chirality", LogType.Error);
             }
 
         }
@@ -125,7 +129,7 @@ namespace PearlGreySoftware
         {
             if (m_gripPivot == null)
             {
-                SetStatus($"{nameof(m_gripPivot)} null!");
+                Log($"{nameof(m_gripPivot)} null!", LogType.Error);
                 return;
             }
 
@@ -154,7 +158,7 @@ namespace PearlGreySoftware
         {
             if (m_indexPivot == null)
             {
-                SetStatus($"{nameof(m_indexPivot)} null!");
+                Log($"{nameof(m_indexPivot)} null!", LogType.Error);
                 return;
             }
 

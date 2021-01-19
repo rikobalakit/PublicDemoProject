@@ -41,6 +41,8 @@ namespace PearlGreySoftware
 
         private IEnumerator Start()
         {
+            SetStatus(StandardStatus.INITIALIZATION_RUNNING);
+
             yield return new WaitWhile(() => GameManager.Instance == null);
             yield return new WaitWhile(() => GameManager.Instance.InputManager == null);
             yield return new WaitWhile(() => !GameManager.Instance.InputManager.IsInitialized);
@@ -57,7 +59,7 @@ namespace PearlGreySoftware
                 }
                 else
                 {
-                    SetStatus("Found a head");
+                    Log("Found a head");
                 }
             }
 
@@ -79,7 +81,7 @@ namespace PearlGreySoftware
 
             ResetPlayerRootTransform();
 
-            SetStatus("Initialized");
+            SetInitialized();
         }
 
         private void ResetPlayerRootTransform()
@@ -100,7 +102,7 @@ namespace PearlGreySoftware
             {
                 if (foundHand.Chirality == chirality)
                 {
-                    SetStatus($"{chirality} Hand found");
+                    Log($"{chirality} Hand found");
                     return foundHand;
                 }
             }

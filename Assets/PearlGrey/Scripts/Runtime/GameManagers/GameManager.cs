@@ -41,7 +41,7 @@ namespace PearlGreySoftware
 
         private IEnumerator Start()
         {
-            SetStatus("Initializing");
+            SetStatus(StandardStatus.INITIALIZATION_RUNNING);
 
             // RPB: Establish a singleton instance of GameManager
 
@@ -62,8 +62,7 @@ namespace PearlGreySoftware
             m_inputManager = gameObject.AddComponent<OculusInputManager>();
             m_inputManager.InitializeFromGameManager(this);
 
-            SetStatus("Initialized");
-
+            SetInitialized();
         }
 
         #endregion

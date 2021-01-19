@@ -5,7 +5,17 @@ namespace PearlGreySoftware
 
     public class PlayerHeadController : PlayerBodyPartController
     {
-        // RPB: Empty for now...
+
+        #region Private Methods
+
+        protected new void Start()
+        {
+            base.Start();
+            SetInitialized();
+        }
+
+        #endregion
+
     }
 
 }

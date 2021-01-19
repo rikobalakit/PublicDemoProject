@@ -36,7 +36,7 @@ namespace PearlGreySoftware
 
         [ReadOnly]
         [SerializeField]
-        private string m_status = "Uninitialized";
+        private string m_status = string.Empty;
 
         private bool m_isInitialized = false;
 
@@ -64,11 +64,15 @@ namespace PearlGreySoftware
 
         protected void SetInitialized()
         {
-            SetStatus("Initialized", LogType.General);
+            SetStatus(StandardStatus.INITIALIZATION_FINISHED, LogType.General);
             m_isInitialized = true;
         }
 
-        // TODO-RPB: Add a filter and option for repetitive statuses.
+        protected void SetInitialized(string customMessage)
+        {
+            SetStatus(customMessage, LogType.General);
+            m_isInitialized = true;
+        }
 
         protected void SetStatus(string statusText)
         {
@@ -78,19 +82,31 @@ namespace PearlGreySoftware
         protected void SetStatus(string statusText, LogType logType)
         {
             m_status = statusText;
-            var logText = $"[{gameObject.name}.{this.GetType().Name}] {statusText}";
+            Log(statusText, logType);
+        }
+
+        // TODO-RPB: Add a filter and option for repetitive statuses.
+
+        protected void Log(string logText)
+        {
+            Log(logText, LogType.General);
+        }
+
+        protected void Log(string logText, LogType logType)
+        {
+            var formattedLogText = $"[{gameObject.name}.{this.GetType().Name}] {logText}";
 
             if (logType == LogType.Error && (CurrentLogLevel == LogLevel.All || CurrentLogLevel == LogLevel.Warning || CurrentLogLevel == LogLevel.Error))
             {
-                Debug.LogError(logText);
+                Debug.LogError(formattedLogText);
             }
             else if (logType == LogType.Warning && (CurrentLogLevel == LogLevel.All || CurrentLogLevel == LogLevel.Warning))
             {
-                Debug.LogWarning(logText);
+                Debug.LogWarning(formattedLogText);
             }
-            else if(logType == LogType.General && CurrentLogLevel == LogLevel.All)
+            else if (logType == LogType.General && CurrentLogLevel == LogLevel.All)
             {
-                Debug.Log(logText);
+                Debug.Log(formattedLogText);
             }
         }
 

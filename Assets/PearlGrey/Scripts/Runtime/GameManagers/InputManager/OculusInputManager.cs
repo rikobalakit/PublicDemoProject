@@ -54,6 +54,8 @@ namespace PearlGreySoftware
 
         private void InitializeFromGameManagerInternal(GameManager gameManager)
         {
+            SetStatus(StandardStatus.INITIALIZATION_RUNNING);
+
             m_gameManager = gameManager;
             m_ovrManager = gameObject.AddComponent<OVRManager>();
 
@@ -79,7 +81,7 @@ namespace PearlGreySoftware
         {
             if(m_ovrManager == null)
             {
-                SetStatus("Cannot update input states because OVRManager is not available!");
+                Log("Cannot update input states because OVRManager is not available!", LogType.Error);
                 return;
             }
 
